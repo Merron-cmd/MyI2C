@@ -2,6 +2,11 @@
     #define IIC_TIMEOUT_US 1000
 #endif
 
+/*
+While waiting for acknowledgement, if the process lasts for over 1000 microseconds, stop the process
+Please change it if needed
+*/
+
 #define IIC_ACK_RECEIVED 0
 #define IIC_ERROR_TIMEOUT 1
 
@@ -16,6 +21,9 @@
 The default pins of SCL and SDA are respectively 9 and 10.
 */
 
+/*
+==========Basic IIC Functions==========
+*/
 
 
 void IIC_delay(uint8_t time);
@@ -41,6 +49,7 @@ void IIC_start()
     digitalWrite(SDA, LOW);
     IIC_delay(1);
     digitalWrite(SCL, LOW);
+    digitalWrite(SDA, HIGH);
 }
 
 void IIC_stop()
@@ -72,6 +81,7 @@ uint8_t IIC_waitACK()
         }
     }
     digitalWrite(SCL, LOW);
+    digitalWrite(SDA, HIGH);
     return IIC_ACK_RECEIVED;
 }
 
@@ -109,4 +119,5 @@ void IIC_sendByte(uint8_t data)
         digitalWrite(SCL, LOW);
         data <<= 1;
     }
+    digitalWrite(SDA, HIGH);
 }
